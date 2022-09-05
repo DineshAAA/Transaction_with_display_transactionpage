@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Transaction Data</title>
+</head>
+<body>
+ <div align="center">
+<h1>Amount Transaction Form</h1>
+<br>
+<form action="addData" method="post">
+
+<label>Transaction Amount :</label>
+<input type = "text" name="transactionAmount"/><br><br>
+	<p>
+		th:if="${#fields.hasErrors('transactionAmount')}" th:errorclass="error"
+				th:errors="*{transactionAmount}"
+	</p>
+
+<label>Transaction Date :</label> 
+<input type = "Date" name  = "transactionDate"><br><br>
+
+
+
+<label>Payment Mode:</label>
+<select name = "transactionMode"> 
+		<option value= ""></option>
+ 		<option value= "Cash">Cash</option>
+ 		<option value= "Cheque">Cheque</option>
+ 		<option value= "UPI">UPI</option>
+ 
+ </select>
+ <br><br>
+ 
+ 
+<label>Payment Currency:</label>
+<select name = "fromCurrency"> 
+		<option value= ""></option>
+ 		<option value= "INR">INR</option>
+ 		<option value= "EURO">EURO</option>
+ 		<option value= "USD">USD</option>
+ 
+</select>
+<br><br>
+
+<label>Additional Fees :</label>
+<input type = "text" name="additionalFees"/><br><br>
+
+
+<button type="submit">Transfer
+</button>
+</form>
+</div>
+</body>
+</html>
