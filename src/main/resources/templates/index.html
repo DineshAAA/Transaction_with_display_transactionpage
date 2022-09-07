@@ -1,54 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Transaction Data</title>
+	<meta charset="ISO-8859-1">
+	<title>Transaction Data</title>
+
 </head>
 <body>
- <div align="center">
-<h1>Amount Transaction Form</h1>
-<br>
-<form action="addData" method="post">
+<div align="center">
+	<h1>Amount Transaction Form</h1>
+	<form action="#" th:action="@{/addData}" th:object="${td}" method="post">
+	<div>
+	<p>Transfer Amount: <input type="text" th:field="*{transactionAmount}" /></p>
 
-<label>Transaction Amount :</label>
-<input type = "text" name="transactionAmount"/><br><br>
-	<p>
-		th:if="${#fields.hasErrors('transactionAmount')}" th:errorclass="error"
-				th:errors="*{transactionAmount}"
+
+	</div>
+	<div>
+	<p><label>Transaction Date :</label>
+		<input type = "Date" name  = "transactionDate"> </p>
+	</div>
+
+	<div>
+	<p><label>Payment Mode:</label>
+		<select name = "transactionMode">
+			<option value= "Cash">Cash</option>
+			<option value= "Cheque">Cheque</option>
+			<option value= "UPI">UPI</option>
+
+		</select>
 	</p>
+	</div>
 
-<label>Transaction Date :</label> 
-<input type = "Date" name  = "transactionDate"><br><br>
+	<div>
+	<p><label>Payment Currency:</label>
+	<select name = "fromCurrency">
+		<option value= "INR">INR</option>
+		<option value= "EURO">EURO</option>
+		<option value= "USD">USD</option>
+	</select>
+	</p>
+	</div>
 
+	<div>
+	<p>Additional Fees: <input type="text" th:field="*{additionalFees}" /></p>
+	</div>
 
-
-<label>Payment Mode:</label>
-<select name = "transactionMode"> 
-		<option value= ""></option>
- 		<option value= "Cash">Cash</option>
- 		<option value= "Cheque">Cheque</option>
- 		<option value= "UPI">UPI</option>
- 
- </select>
- <br><br>
- 
- 
-<label>Payment Currency:</label>
-<select name = "fromCurrency"> 
-		<option value= ""></option>
- 		<option value= "INR">INR</option>
- 		<option value= "EURO">EURO</option>
- 		<option value= "USD">USD</option>
- 
-</select>
-<br><br>
-
-<label>Additional Fees :</label>
-<input type = "text" name="additionalFees"/><br><br>
-
-
-<button type="submit">Transfer
-</button>
+	<p><input type="submit" value="Submit" /> </p>
 </form>
 </div>
 </body>
