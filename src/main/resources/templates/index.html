@@ -9,36 +9,55 @@
 <div align="center">
 	<h1>Amount Transaction Form</h1>
 	<form action="#" th:action="@{/addData}" th:object="${td}" method="post">
-	<div>
-	<p>Transfer Amount: <input type="text" th:field="*{transactionAmount}" /></p>
+	<div class="form-group">
+		<label for="Username : ">Username: </label>
+		<input class="form-control" type="text" th:field="*{userName}" id="userName" >
 
-
+		<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="alert alert-danger"></p>
 	</div>
 	<div>
+
+		<div>
+			<p>Transfer Amount: <input type="text" th:field="*{transactionAmount}" /></p>
+		</div>
+		<div>
 	<p><label>Transaction Date :</label>
 		<input type = "Date" name  = "transactionDate"> </p>
 	</div>
 
-	<div>
-	<p><label>Payment Mode:</label>
+		<div>
+			<p><label>Payment Mode:</label>
 		<select name = "transactionMode">
+			<option value= ""></option>
 			<option value= "Cash">Cash</option>
 			<option value= "Cheque">Cheque</option>
 			<option value= "UPI">UPI</option>
 
 		</select>
-	</p>
-	</div>
+			</p>
+		</div>
 
 	<div>
 	<p><label>Payment Currency:</label>
 	<select name = "fromCurrency">
+		<option value= ""></option>
 		<option value= "INR">INR</option>
 		<option value= "EURO">EURO</option>
 		<option value= "USD">USD</option>
 	</select>
 	</p>
 	</div>
+
+		<div>
+			<p><label>Tax Percentage:</label>
+				<select name = "taxpercentage">
+					<option value= ""></option>
+					<option value= "10">10</option>
+					<option value= "18">18</option>
+					<option value= "25">25</option>
+				</select>
+			</p>
+		</div>
 
 	<div>
 	<p>Additional Fees: <input type="text" th:field="*{additionalFees}" /></p>

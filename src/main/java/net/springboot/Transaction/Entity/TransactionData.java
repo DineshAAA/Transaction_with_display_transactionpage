@@ -1,5 +1,6 @@
 package net.springboot.Transaction.Entity;
 
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,8 +13,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -22,10 +23,19 @@ public class TransactionData {
 
     @Override
     public String toString() {
-        return "TransactionData [id=" + id + ", transactionAmount=" + transactionAmount + ", fromAmount=" + fromAmount
-                + ", toAmount=" + toAmount + ", additionalFees=" + additionalFees + ", totalAmount=" + totalAmount
-                + ", transactionMode=" + transactionMode + ", fromCurrency="
-                + fromCurrency + ", toCurrency=" + toCurrency + ", accountStatus=" + accountStatus + "]";
+        return "TransactionData{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", transactionAmount=" + transactionAmount +
+                ", toAmount=" + toAmount +
+                ", additionalFees=" + additionalFees +
+                ", totalAmount=" + totalAmount +
+                ", transactionDate=" + transactionDate +
+                ", transactionMode='" + transactionMode + '\'' +
+                ", fromCurrency='" + fromCurrency + '\'' +
+                ", toCurrency='" + toCurrency + '\'' +
+                ", accountStatus=" + accountStatus +
+                '}';
     }
 
     @Id
@@ -33,21 +43,24 @@ public class TransactionData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "Username")
+    @NotEmpty(message = "Username cannot be empty...")
+    @Size(min = 5, max = 250)
+    private String userName;
+
     @Column(name= "Transaction_Amount")
     @NotNull(message = "Transaction_Amount cannot be empty...")
     private Double transactionAmount;
 
-    @Column(name= "From_Amount")
-    private Double fromAmount;
 
-    @Column(name= "To_Amount")
-    private Double toAmount;
+    @Column(name= "To_Amount",scale = 4)
+    private Double  toAmount;
 
     @Column(name= "Additional_Fees")
-    private Double additionalFees;
+    private Double  additionalFees;
 
     @Column(name= "Total_Amount")
-    private Double totalAmount;
+    private Double  totalAmount;
 
     @Temporal(TemporalType.DATE)
     @Column(name= "Transaction_Date")
@@ -57,11 +70,19 @@ public class TransactionData {
     @Column(name="Transaction_Mode")
     private String transactionMode;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Column(name="Transaction_Currency_From")
     private String fromCurrency;
 
     @Column(name="Transaction_Currency_To")
-    private String toCurrency;
+    private String toCurrency ="USD";
 
 
     @Column(name="Status")
@@ -70,6 +91,18 @@ public class TransactionData {
 
     @Column(name= "Tax_Amount")
     private Double taxAmount;
+
+    public Double getTaxpercentage() {
+        return taxpercentage;
+    }
+
+    public void setTaxpercentage(Double taxpercentage) {
+        this.taxpercentage = taxpercentage;
+    }
+
+    @Column(name= "Tax_Percentage")
+    private Double taxpercentage;
+
 
     public Double getTaxAmount() {
         return taxAmount;
@@ -97,35 +130,30 @@ public class TransactionData {
         this.id = id;
     }
 
-    public Double getFromAmount() {
-        return fromAmount;
-    }
 
-    public void setFromAmount(Double fromAmount) {
-        this.fromAmount = fromAmount;
-    }
 
     public Double getToAmount() {
         return toAmount;
     }
 
-    public void setToAmount(Double toAmount) {
+    public Double setToAmount(Double toAmount) {
         this.toAmount = toAmount;
+        return toAmount;
     }
 
-    public Double getAdditionalFees() {
+    public Double  getAdditionalFees() {
         return additionalFees;
     }
 
-    public void setAdditionalFees(Double additionalFees) {
+    public void setAdditionalFees(Double  additionalFees) {
         this.additionalFees = additionalFees;
     }
 
-    public Double getTotalAmount() {
+    public Double  getTotalAmount() {
         return totalAmount;
     }
 
-    public Double setTotalAmount(Double totalAmount) {
+    public Double  setTotalAmount(Double  totalAmount) {
         return this.totalAmount = totalAmount;
     }
 
@@ -146,11 +174,11 @@ public class TransactionData {
     }
 
 
-    public Double getTransactionAmount() {
+    public Double  getTransactionAmount() {
         return transactionAmount;
     }
 
-    public void setTransactionAmount(Double transactionAmount) {
+    public void setTransactionAmount(Double  transactionAmount) {
         this.transactionAmount = transactionAmount;
     }
 
@@ -173,13 +201,12 @@ public class TransactionData {
 
 
 
-    public TransactionData(long id, Double transactionAmount, Double fromAmount, Double toAmount, Double additionalFees,
-                           Double totalAmount, Date transactionDate, String transactionMode, String fromCurrency, String toCurrency,
-                           Boolean accountStatus, Double taxAmount) {
+    public TransactionData(long id, Double  transactionAmount, Double  toAmount, Double  additionalFees,
+                           Double  totalAmount, Date transactionDate, String transactionMode, String fromCurrency, String toCurrency,
+                           Boolean accountStatus, Double taxAmount,Double taxPercentage,String userName) {
         super();
         this.id = id;
         this.transactionAmount = transactionAmount;
-        this.fromAmount = fromAmount;
         this.toAmount = toAmount;
         this.additionalFees = additionalFees;
         this.totalAmount = totalAmount;
@@ -189,6 +216,8 @@ public class TransactionData {
         this.toCurrency = toCurrency;
         this.accountStatus = accountStatus;
         this.taxAmount = taxAmount;
+        this.taxpercentage = taxPercentage;
+        this.userName = userName;
     }
 
     public TransactionData(){

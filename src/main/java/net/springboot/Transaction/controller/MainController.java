@@ -12,9 +12,11 @@ import net.springboot.Transaction.Entity.TransactionData;
 import net.springboot.Transaction.Repository.TransactionDataRepository;
 import net.springboot.Transaction.Service.DataService;
 
+
+
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.List;
+
+
 
 @Controller
 public class MainController {
@@ -33,15 +35,39 @@ public class MainController {
 
 
 	@PostMapping("/addData")
-	public String dataTransferFrom(@Valid @ModelAttribute TransactionData td, Model model, BindingResult bindingResult) {
-		model.addAttribute("td", td);
-		Double totalAmount = td.setTotalAmount(td.getAdditionalFees()+td.getTransactionAmount());
-		TransactionData savedData = dataservice.CreateData(td);
+	public String dataTransferFrom(@Valid @ModelAttribute("td") TransactionData td, Model model, BindingResult bindingResult) {
 		if(bindingResult.hasErrors())
 		{
-			System.out.println(bindingResult);
+			//System.out.println(bindingResult);
 			return "index";
 		}
+		model.addAttribute("td", td);
+
+		Double  taxAmount = td.setTaxAmount((td.getAdditionalFees()+td.getTransactionAmount())*(td.getTaxpercentage()/100));
+		Double  totalAmount = td.setTotalAmount(td.getAdditionalFees()+td.getTransactionAmount()+td.getTaxAmount());
+
+		String currency = td.getFromCurrency();
+		switch (currency){
+			case "INR":
+			{
+				Double toAmount = td.setToAmount(td.getTotalAmount()/79.37);
+				break;
+			}
+			case "EURO":
+			{
+				Double toAmount = td.setToAmount(totalAmount/1.01);
+				break;
+			}
+			case "USD":
+			{
+				Double toAmount = td.setToAmount(totalAmount*1.0);
+				break;
+			}
+		}
+
+		td.setAccountStatus(true);
+		TransactionData savedData = dataservice.CreateData(td);
+		System.out.println(td);
 		return "success";
 
 	}
